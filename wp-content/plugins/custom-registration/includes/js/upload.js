@@ -16,7 +16,7 @@ $(document).ready(function () {
         fileTypeError: "Disallowed file format.",
     });
 
-    
+
     $("#name").filter_input({
         regex: "[a-zA-Z ]"
     });
@@ -48,19 +48,20 @@ function sRequest(formData, jqForm, options) {
     var name = $("#name").val();
     var email = $("#email").val();
     var mobile = $("#mobile").val();
-    var comment = $("#comment").val();
+    var city = $("#city").val();
+    var country = $("#country").val();
 
     if (name.trim() == "") {
         swal("Name Field Cannot Be Empty").then((value) => {
             $("#btnSubmit").removeAttr('disabled');
         });
         return false;
-    } /* else if (email.trim() == "") {
+    } else if (email.trim() == "") {
         swal("Email ID Field Cannot Be Empty").then((value) => {
             $("#btnSubmit").removeAttr('disabled');
         });
         return false;
-    }*/ else if (email.trim() != "" && !(IsEmail(email))) {
+    } else if (email.trim() != "" && !(IsEmail(email))) {
         swal("Invalid Email ID").then((value) => {
             $("#btnSubmit").removeAttr('disabled');
         });
@@ -75,8 +76,14 @@ function sRequest(formData, jqForm, options) {
             $("#btnSubmit").removeAttr('disabled');
         });
         return false;
-    } else if (comment.trim() == "") {
-        swal("Story Field Cannot Be Empty").then((value) => {
+    } else if (city.trim() == "") {
+        swal("city Field Cannot Be Empty").then((value) => {
+            $("#btnSubmit").removeAttr('disabled');
+        });
+        return false;
+    }
+    else if (country.trim() == "") {
+        swal("country Field Cannot Be Empty").then((value) => {
             $("#btnSubmit").removeAttr('disabled');
         });
         return false;

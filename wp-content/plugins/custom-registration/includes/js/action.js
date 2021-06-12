@@ -36,29 +36,20 @@ jQuery(document).ready(function ($) {
         var email = $("#email").val();
         var uname = $("#uname").val();
         var passwd = $("#passwd").val();
-        var sq = $("#sq").val();
-        var sa = $("#sa").val();
         if (email == "") {
-            alert("Please enter email id to continue.");
+            swal("Please enter email id to continue.");
         } else if (email.trim() != "" && !IsEmail(email.trim())) {
-            alert("Invalid Email");
+            swal("Invalid Email");
         } else if (uname == "") {
-            alert("Please enter user name to continue.");
+            swal("Please enter user name to continue.");
         } else if (passwd == "") {
-            alert("Please enter password to continue.");
-        } else if (sq == "") {
-            alert("Please enter security question to continue.");
-        } else if (sa == "") {
-            alert("Please enter security answer to continue.");
+            swal("Please enter password to continue.");
         } else {
             var data = {
                 action: "dm_register_user",
                 email: $("#email").val(),
                 uname: uname,
                 passwd: passwd,
-                sq: sq,
-                sa: sa,
-                //gresponse: grecaptcha.getResponse(),
             };
             $.post(my_ajax_object.ajax_url, data, function (response) {
                 console.log("response = " + response);
@@ -66,9 +57,9 @@ jQuery(document).ready(function ($) {
                 if (data.status == "success") {
                     $("#email, #uname, #passwd, #sq, #sa").val("");
                     //grecaptcha.reset();
-                    alert("User registered successfully.");
+                    swal("User registered successfully.");
                 } else if (data.status == "error") {
-                    alert(data.error);
+                    swal(data.error);
                 }
             });
         }
