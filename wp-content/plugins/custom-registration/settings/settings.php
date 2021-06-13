@@ -1,5 +1,9 @@
 <?php
 
+include('statusApprove.php');
+    include('statusDisapprove.php');
+
+
 function bs_options_page() {
     add_menu_page(
         'BS Uploaded Images',
@@ -10,23 +14,27 @@ function bs_options_page() {
     );
 }
 
-function bs_gallery_load_scripts()
-{
-    wp_enqueue_script('settings_js', plugins_url('js/settings.js',__FILE__ ));
-    wp_localize_script( 'action_js', 'my_ajax_object',
-            array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-
-
-}
-
-
-
 /**
- * Register our dmc_options_page to the admin_menu action hook.
+ * Register our bs_options_page to the admin_menu action hook.
  */
 add_action( 'admin_menu', 'bs_options_page' );
 
+function bs_settings_load_scripts()
+    {
+        wp_enqueue_script('sweetalertmin_js', plugins_url('js/sweetalert.min.js',__FILE__ ));
+        wp_enqueue_script('settings_js', plugins_url('js/settings.js',__FILE__ ));
+        wp_localize_script( 'settings_js', 'my_ajax_object',
+            array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+
+
+    }
+
+add_action('admin_enqueue_scripts', 'bs_settings_load_scripts');
+
+
+
 function bs_options_page_html() {
+    
     // check user capabilities
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
@@ -75,7 +83,7 @@ function bs_options_page_html() {
                     <td><?php echo $image->city; ?></td>
                     <td><img src="<?php echo $picture; ?>" width="200"></td>
                     <td><?php echo $image->date; ?></td>
-                    <td>Approved</td>
+                    <td id="status_<?php echo $image->id; ?>"><?php echo $image->status; ?></td>
                     <td><button class="btnApprove" data-id="<?php echo $image->id; ?>">Approve</button> <button class="btnDisapprove" data-id="<?php echo $image->id; ?>">Disapprove</button></td>
                 </tr>
 
@@ -86,6 +94,6 @@ function bs_options_page_html() {
         </table>
 
     </div>
-    <
+
     <?php
 }

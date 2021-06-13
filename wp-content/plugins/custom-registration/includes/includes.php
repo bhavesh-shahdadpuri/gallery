@@ -6,7 +6,6 @@
   include('upload-form.php');
   include('submit.php');
   include('gallery.php');
-  include('settings.php');
 
   add_shortcode('registration', 'dm_registration_shortcode');
   add_shortcode('gallery', 'bs_gallery_shortcode');

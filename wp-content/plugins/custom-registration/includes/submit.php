@@ -76,14 +76,14 @@ function bs_gallery_upload(){
                 $images = '';
             }
 
-            $sql = $wpdb->query("INSERT INTO `wp_gallery` (`id`,`name`, `email`, `phone`, `country`, `city`, `path`, `date`) values (NULL, '$name', '$email', '$mobile', '$country', '$city', '$file', now())");
+            $sql = $wpdb->query("INSERT INTO `wp_gallery` (`id`,`name`, `email`, `phone`, `country`, `city`, `path`, `date`, `status`) values (NULL, '$name', '$email', '$mobile', '$country', '$city', '$file', now(), 'Approved')");
 
             if($sql){
-                echo json_encode(array("status"=> 'Success', "sql"=> $sql));
+                echo json_encode(array("status"=> 'Success'));
                 exit();
             }
             else{
-                echo json_encode(array("status"=> 'Failed', "sql"=> "INSERT INTO `wp_gallery` (`id`,`name`, `email`, `phone`, `country`, `city`, `path`, `date`) values (NULL, '$name', '$email', '$mobile', '$country', '$city', '$file', now())"));
+                echo json_encode(array("status"=> 'Failed', "sql"=> ""));
                 exit();
             }
 

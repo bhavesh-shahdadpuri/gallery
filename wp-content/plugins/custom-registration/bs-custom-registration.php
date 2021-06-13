@@ -14,6 +14,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 include('includes/includes.php');
+include('settings/settings.php');
 
 function activate_bs_custom_registration() {
 
@@ -41,6 +42,7 @@ function init_db_myplugin() {
         `city` varchar(100) NOT NULL,
         `path` text NOT NULL,
         `date` datetime NOT NULL,
+        `status` varchar(100) NOT NULL,
         PRIMARY KEY (id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 	
