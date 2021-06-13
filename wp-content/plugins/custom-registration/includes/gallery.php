@@ -19,7 +19,7 @@ function bs_gallery_shortcode( $atts ) {
         $country = get_user_meta($user_id, "country");
         if(count($country) > 0)
         {
-            $images = $wpdb->get_results("SELECT * FROM  `wp_gallery` WHERE country = '$country[0]'");
+            $images = $wpdb->get_results("SELECT * FROM  `wp_gallery` WHERE country = '$country[0]' AND status = 'Approved'");
             if(count($images) > 0)
             {
                 $html = '';
