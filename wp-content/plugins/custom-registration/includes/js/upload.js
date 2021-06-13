@@ -93,16 +93,11 @@ function sRequest(formData, jqForm, options) {
 
 function sResponse(responseText, statusText, xhr, $form) {
     var response = JSON.parse(responseText);
-    console.log(response);
+    //console.log(responseText);
     if (response.status == 'Success') {
         swal('Your entry submitted successfully.').then((value) => {
             $("#btnSubmit").removeAttr('disabled');
-            $('.w-full').val('');
-            $('#comment').val('');
-            $("#aksfileupload").val('');
-            $(".aks-file-upload-content").children("div").remove();
-            window.location.href = "thank-you.php";
-            $.fancybox.close();
+            window.location.href = "gallery/";
         });
     } else if (response.status == 'error') {
         swal(response.error).then((value) => {
@@ -113,6 +108,7 @@ function sResponse(responseText, statusText, xhr, $form) {
             $("#btnSubmit").removeAttr('disabled');
         });
     }
+    $("#btnSubmit").removeAttr('disabled');
 }
 
 function IsEmail(email) {

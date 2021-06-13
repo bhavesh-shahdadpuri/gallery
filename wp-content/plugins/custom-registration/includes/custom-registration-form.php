@@ -20,105 +20,127 @@ add_action('wp_enqueue_scripts', 'dm_registration_load_scripts');
 
 
 function dm_registration_shortcode( $atts ) {
-    global $wpdb;
-    $opt = get_option('dmc_options');
 
-    $html = '<div class="container sign-in-up">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                <br>
-                <!-- Nav tabs -->
-                <div class="text-center">
-                    <div class="btn-group">
-                        <a  href="#1a" data-toggle="tab" class="big btn btn-primary"><i class="fa fa-plus"></i> Sign Up</a>
-                        <a href="#2a" data-toggle="tab" class="big btn btn-danger"><i class="fa fa-user"></i> Sign In</a>
-                    </div>
-                </div>
-                <p class="click2select">Click to select</p>    
-                <div class="tab-content clearfix">
-                    <div class="tab-pane active" id="1a">
-                            <!--<h2>Registration</h2>-->
-                            <div class="form-group">
-                                <div class="right-inner-addon">
-                                    <label for="uname">Username:</label>
-                                    <i class="fa fa-envelope"></i>
-                                    <input
-                                        type="text"                                                                                                             
-                                        class="form-control input-lg"
-                                        id="uname"
-                                        name="uname"
-                                        placeholder="Enter user name"
-                                    />
-                                </div>    
+    if(is_user_logged_in() == 0)
+    {
+            global $wpdb;
+        
+            $html = '<div class="container sign-in-up">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                        <br>
+                        <!-- Nav tabs -->
+                        <div class="text-center">
+                            <div class="btn-group">
+                                <a  data-target="#1a" data-toggle="tab" id="sign-up" class="big btn btn-primary"><i class="fa fa-plus"></i> Sign Up</a>
+                                <a data-target="#2a" data-toggle="tab" id="sign-in" class="big btn btn-danger"><i class="fa fa-user"></i> Sign In</a>
                             </div>
-                            <div class="form-group">
-                                <div class="right-inner-addon">
-                                    <label for="email">Email:</label>
-                                    <i class="fa fa-key"></i>
-                                    <input
-                                        type="email"
-                                        class="form-control input-lg"
-                                        id="email"                                                                          
-                                        name="email"
-                                        placeholder="Enter email"
-                                    />
-                                </div> 
-                            </div>
-
-                            <div class="form-group">
-                                <div class="right-inner-addon">
-                                    <label for="passwd">Password:</label>
-                                    <i class="fa fa-key"></i>
-                                    <input
-                                        type="password"
-                                        class="form-control input-lg"
-                                        id="passwd"
-                                        name="passwd"
-                                        placeholder="Enter password"
-                                    />
-                                </div>    
-                            </div>
-
-                            
-                            <button type="submit" id="submit" class="btn btn-default btn-lg btn-block"><i class="fa fa-plus"></i> Sign Up</button>
-                            </div>    
-                            <div class="tab-pane" id="2a">
-                                <h2>Sign In</h2>
-                                <div class="form-group">
+                        </div>
+                        <p class="click2select">Click to select</p>    
+                        <div class="tab-content clearfix">
+                            <div class="tab-pane active" id="1a">
+                                    <!--<h2>Registration</h2>-->
+                                    <div class="form-group">
                                         <div class="right-inner-addon">
-                                            <label for="sign_in_email">Email:</label>
+                                            <label for="uname">Username:</label>
                                             <i class="fa fa-envelope"></i>
+                                            <input
+                                                type="text"                                                                                                             
+                                                class="form-control input-lg"
+                                                id="uname"
+                                                name="uname"
+                                                placeholder="Enter user name"
+                                            />
+                                        </div>    
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="right-inner-addon">
+                                            <label for="email">Email:</label>
+                                            <i class="fa fa-key"></i>
                                             <input
                                                 type="email"
                                                 class="form-control input-lg"
-                                                id="sign_in_email"                                                                          
-                                                name="sign_in_email"
+                                                id="email"                                                                          
+                                                name="email"
                                                 placeholder="Enter email"
+                                            />
+                                        </div> 
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="right-inner-addon">
+                                            <label for="passwd">Password:</label>
+                                            <i class="fa fa-key"></i>
+                                            <input
+                                                type="password"
+                                                class="form-control input-lg"
+                                                id="passwd"
+                                                name="passwd"
+                                                placeholder="Enter password"
                                             />
                                         </div>    
                                     </div>
 
                                     <div class="form-group">
                                         <div class="right-inner-addon">
-                                            <label for="sign_in_passwd">Password:</label>
-                                            <i class="fa fa-key"></i>
+                                            <label for="country">Country:</label>
+                                            <i class="fa fa-envelope"></i>
                                             <input
-                                                type="password"
+                                                type="text"                                                                                                             
                                                 class="form-control input-lg"
-                                                id="sign_in_passwd"
-                                                name="sign_in_passwd"
-                                                placeholder="Enter password"
+                                                id="country"
+                                                name="country"
+                                                placeholder="Enter user country"
                                             />
                                         </div>    
                                     </div>
 
-                                    <button type="submit" id="login_submit" class="btn btn-default btn-lg btn-block"><i class="fa fa-user"></i> Sign In</button>
-                            </div>
-                        </div>
-                    </div>    
-                </div>';
+                                    
+                                    <button type="submit" id="submit" class="btn btn-default btn-lg btn-block"><i class="fa fa-plus"></i> Sign Up</button>
+                                    </div>    
+                                    <div class="tab-pane" id="2a">
+                                        <h2>Sign In</h2>
+                                        <div class="form-group">
+                                                <div class="right-inner-addon">
+                                                    <label for="sign_in_email">Email:</label>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <input
+                                                        type="email"
+                                                        class="form-control input-lg"
+                                                        id="sign_in_email"                                                                          
+                                                        name="sign_in_email"
+                                                        placeholder="Enter email"
+                                                    />
+                                                </div>    
+                                            </div>
 
-    return $html;
+                                            <div class="form-group">
+                                                <div class="right-inner-addon">
+                                                    <label for="sign_in_passwd">Password:</label>
+                                                    <i class="fa fa-key"></i>
+                                                    <input
+                                                        type="password"
+                                                        class="form-control input-lg"
+                                                        id="sign_in_passwd"
+                                                        name="sign_in_passwd"
+                                                        placeholder="Enter password"
+                                                    />
+                                                </div>    
+                                            </div>
+
+                                            <button type="submit" id="login_submit" class="btn btn-default btn-lg btn-block"><i class="fa fa-user"></i> Sign In</button>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>';
+
+            return $html;
+        }
+        else
+        {
+            $html = "<script>window.location.href='gallery/';</script>";
+            return $html;
+        }    
 }
 
 

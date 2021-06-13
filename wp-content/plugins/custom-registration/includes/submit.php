@@ -1,14 +1,22 @@
 <?php
+function bs_gallery_upload(){
 
+        global $wpdb;
 
         $name = $_POST['name'];
         $email = $_POST['email'];
         $mobile = $_POST['mobile'];
-        $comment =  $_POST['comment'];
+        $country =  $_POST['country'];
+        $city =  $_POST['city'];
 
         //print_r($_FILES['aksfileupload']['name']);
 
-        $dir  = 'uploads/';
+        
+        $path = plugin_dir_path( __FILE__ )."/uploads";
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        $dir  = "../wp-content/plugins/custom-registration/includes/uploads/";
         $valid_exts = array('jpeg', 'jpg', 'png');
 
         $unique_id = uniqid();
@@ -24,8 +32,11 @@
         } else if(!preg_match($pattern, $mobile)) {
             echo json_encode(array("status"=>'error', "error"=>'Invalid phone number.'));
             exit();
-        } else if($comment == "") {
-            echo json_encode(array("status"=>'error', "error"=>'Please enter excuse.'));
+        } else if($country == "") {
+            echo json_encode(array("status"=>'error', "error"=>'Please enter country.'));
+            exit();
+        } else if($city == "") {
+            echo json_encode(array("status"=>'error', "error"=>'Please enter city.'));
             exit();
         } else if(!isset($_FILES['aksfileupload'])) {
             echo json_encode(array("status"=>'error', "error"=>'Please upload image.'));
@@ -36,14 +47,22 @@
                 $myFile = $_FILES['aksfileupload'];
                 $fileCount = count($myFile["name"]);
 
+                $file = "";
+
                 for ($i = 0; $i < $fileCount; $i++) {
                     $ext = end(explode(".", $myFile["name"][$i]));
-                    if(in_array($ext, $valid_exts))
+                    if(in_array(strtolower($ext), $valid_exts))
                     {
                         $fuid = uniqid();
                         $filepath = $dir.$fuid.'.'.$ext;
                         $fupstatus = move_uploaded_file($myFile['tmp_name'][$i], $filepath);
-                        $file = $file . ",". $filepath;
+                        if($file != ""){
+                            $file = $file . ",". $filepath;
+                        }
+                        else{
+                            $file = $filepath;
+                        }
+                        $file = str_replace('\\', '/', $file);
                     }
                     else
                     {
@@ -56,49 +75,25 @@
             {
                 $images = '';
             }
-            
-            $ipaddress = get_client_ip();
 
-            $rstring = $name.'|'.$email.'|'.$mobile.'|'.$comment.'|'.$file.'|'.$ipaddress;
-                                
-            $cipher_method = 'aes-128-ctr';
-            $enc_key = "h6uyIK8rHB94S2BljdvTkDqVynvD1M";
-            $enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));
-            $crypted_token = openssl_encrypt($rstring, $cipher_method, $enc_key, 0, $enc_iv) . "::" . bin2hex($enc_iv);
+            $sql = $wpdb->query("INSERT INTO `wp_gallery` (`id`,`name`, `email`, `phone`, `country`, `city`, `path`, `date`) values (NULL, '$name', '$email', '$mobile', '$country', '$city', '$file', now())");
 
-            $sql = "INSERT INTO `bsid_olympics_stories`(`id`, `uid`, `data`, `status`, `date`) VALUES (NULL, '$unique_id', '$crypted_token', 0, now());";
-            
-            $rst = mysqli_query($conn, $sql);
-
-            if(!$rst)
-            {
-                echo json_encode(array("status"=> 'Failed', "sql"=> $sql));
-                exit();
-            }
-            else
-            {
-                $_SESSION["submit1"] = "yes";
+            if($sql){
                 echo json_encode(array("status"=> 'Success', "sql"=> $sql));
                 exit();
             }
+            else{
+                echo json_encode(array("status"=> 'Failed', "sql"=> "INSERT INTO `wp_gallery` (`id`,`name`, `email`, `phone`, `country`, `city`, `path`, `date`) values (NULL, '$name', '$email', '$mobile', '$country', '$city', '$file', now())"));
+                exit();
+            }
+
         }
     
-function get_client_ip() {
-    $ipaddress = '';
-    if (getenv('HTTP_CLIENT_IP'))
-        $ipaddress = getenv('HTTP_CLIENT_IP');
-    else if(getenv('HTTP_X_FORWARDED_FOR'))
-        $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-    else if(getenv('HTTP_X_FORWARDED'))
-        $ipaddress = getenv('HTTP_X_FORWARDED');
-    else if(getenv('HTTP_FORWARDED_FOR'))
-        $ipaddress = getenv('HTTP_FORWARDED_FOR');
-    else if(getenv('HTTP_FORWARDED'))
-       $ipaddress = getenv('HTTP_FORWARDED');
-    else if(getenv('REMOTE_ADDR'))
-        $ipaddress = getenv('REMOTE_ADDR');
-    else
-        $ipaddress = 'UNKNOWN';
-    return $ipaddress;
+            
+
+            wp_die();
 }
+
+add_action( 'wp_ajax_bs_gallery_upload', 'bs_gallery_upload' );
+add_action( 'wp_ajax_nopriv_bs_gallery_upload', 'bs_gallery_upload' );    
 ?>

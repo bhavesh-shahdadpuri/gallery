@@ -43,8 +43,7 @@ jQuery(document).ready(function ($) {
                 var data = JSON.parse(response);
                 if (data.status == "success") {
                     $("#sign_in_email, #sign_in_passwd").val("");
-                    //grecaptcha.reset();
-                    alert("User logged in.");
+                    window.location.href = "gallery/";
                 } else if (data.status == "error") {
                     alert(data.error);
                 }

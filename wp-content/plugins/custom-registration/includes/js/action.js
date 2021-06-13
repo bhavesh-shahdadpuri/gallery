@@ -36,6 +36,7 @@ jQuery(document).ready(function ($) {
         var email = $("#email").val();
         var uname = $("#uname").val();
         var passwd = $("#passwd").val();
+        var country = $("#country").val();
         if (email == "") {
             swal("Please enter email id to continue.");
         } else if (email.trim() != "" && !IsEmail(email.trim())) {
@@ -44,20 +45,25 @@ jQuery(document).ready(function ($) {
             swal("Please enter user name to continue.");
         } else if (passwd == "") {
             swal("Please enter password to continue.");
+        } else if (country == "") {
+            swal("Please enter country to continue.");
         } else {
             var data = {
                 action: "dm_register_user",
                 email: $("#email").val(),
                 uname: uname,
                 passwd: passwd,
+                country: country,
             };
             $.post(my_ajax_object.ajax_url, data, function (response) {
                 console.log("response = " + response);
                 var data = JSON.parse(response);
                 if (data.status == "success") {
-                    $("#email, #uname, #passwd, #sq, #sa").val("");
-                    //grecaptcha.reset();
-                    swal("User registered successfully.");
+                    $("#email, #uname, #passwd, #country").val("");
+                    //swal("User registered successfully.");
+                    swal('User registered successfully. Please sign in to continue').then((value) => {
+                        $("#sign-in").trigger("click");
+                    });
                 } else if (data.status == "error") {
                     swal(data.error);
                 }
