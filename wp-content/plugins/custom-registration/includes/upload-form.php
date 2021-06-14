@@ -52,7 +52,7 @@ function bs_upload_shortcode( $atts ) {
             </div>
 
             <div class="form-group">
-                <label for="comment">Please enter country<sup>*</sup></label>
+                <label for="comment">Please enter city<sup>*</sup></label>
                 <input type="text" id="city" name="city" placeholder="Please enter city" class="form-control input-lg" maxlength="10">
             </div>
 

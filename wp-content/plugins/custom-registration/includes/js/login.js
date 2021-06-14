@@ -27,11 +27,11 @@ jQuery(document).ready(function ($) {
         var passwd = $("#sign_in_passwd").val();
        
         if (email == "") {
-            alert("Please enter email id to continue.");
+            swal("Please enter email id to continue.");
         } else if (email.trim() != "" && !IsEmail(email.trim())) {
-            alert("Invalid Email");
+            swal("Invalid Email");
         } else if (passwd == "") {
-            alert("Please enter password to continue.");
+            swal("Please enter password to continue.");
         } else {
             var data = {
                 action: "bs_user_login",
@@ -45,7 +45,7 @@ jQuery(document).ready(function ($) {
                     $("#sign_in_email, #sign_in_passwd").val("");
                     window.location.href = "gallery/";
                 } else if (data.status == "error") {
-                    alert(data.error);
+                    swal(data.error);
                 }
             });
         }
