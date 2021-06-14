@@ -24,8 +24,16 @@ function dm_registration_shortcode( $atts ) {
     if(is_user_logged_in() == 0)
     {
             global $wpdb;
+
+            if(!empty($atts))
+            {
+                $class = $atts["class"];
+            }
+            else{
+                $class = "";
+            }
         
-            $html = '<div class="container sign-in-up">
+            $html = '<div class="container sign-in-up '.$class.'">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                         <br>

@@ -32,7 +32,7 @@ function bs_gallery_shortcode( $atts ) {
                         $html = $html. '<div class="responsive">
                                         <div class="gallery">
                                             <a target="_blank" href="'.$picture.'">
-                                                <img src="'.$picture.'" alt="Cinque Terre" width="600" height="400">
+                                                <img src="'.$picture.'" alt="'.$image->name.'" width="600" height="400">
                                             </a>
                                             <div class="desc">'.$image->name.'</div>
                                             <div class="desc">'.$image->email.'</div>

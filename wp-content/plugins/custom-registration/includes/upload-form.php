@@ -21,8 +21,14 @@ function bs_upload_shortcode( $atts ) {
     global $wpdb;
     if(is_user_logged_in() != 0)
     {
-
-        $html = '<div class="container">
+        if(!empty($atts))
+        {
+            $class = $atts["class"];
+        }
+        else{
+            $class = "";
+        }
+        $html = '<div class="container '.$class.'">
         <form id="submit-story" action="'.admin_url( 'admin-ajax.php' ).'" method="post" enctype="multipart/form-data">
             <input type="hidden" name="action" value="bs_gallery_upload">
             <div class="form-group">
